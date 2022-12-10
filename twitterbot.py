@@ -25,13 +25,13 @@ def buysell():
     currentTime = timeInIowa.strftime("%H:%M:%S")
 
     if price <= buy:
-        return(f"Buy Signal for {tick} at price of {price} ({currentTime} CST)")
+        return(f"Buy Signal detected for {tick} at price of {price} ({currentTime} CST)")
 
     if price >= sell:
-        return(f"Sell Signal for {tick} at price of {price} ({currentTime} CST)")
+        return(f"Sell Signal detected for {tick} at price of {price} ({currentTime} CST)")
 
     else:
-        return(f"No Signal for {tick} at price of {price} ({currentTime} CST)")
+        return(f"Neutral Signal detected for {tick} at price of {price} ({currentTime} CST)")
 
 
 def api():

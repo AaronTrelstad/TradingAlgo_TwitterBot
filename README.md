@@ -1,2 +1,2 @@
-# TradingAlgo_TwitterBot_AAPL
-Twitter bot that tweets if buy or sell signal is detected on apple stock
+# TradingAlgo_TwitterBot
+Twitter bot that tweets if buy, sell or neutral signal is detected on user inputed stock

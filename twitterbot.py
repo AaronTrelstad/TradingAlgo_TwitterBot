@@ -4,6 +4,8 @@ import yfinance as yf
 from statistics import stdev
 from datetime import datetime
 import pytz
+from sklearn.linear_model import LinearRegression
+import numpy as np
 
 
 def buysell():
@@ -25,13 +27,27 @@ def buysell():
     currentTime = timeInIowa.strftime("%H:%M:%S")
 
     if price <= buy:
-        return(f"Buy Signal detected for {tick} at price of {price} ({currentTime} CST)")
+        return(f"Buy Signal detected for {tick} at price of {price}. ({currentTime} CST)")
 
     if price >= sell:
-        return(f"Sell Signal detected for {tick} at price of {price} ({currentTime} CST)")
+        return(f"Sell Signal detected for {tick} at price of {price}. ({currentTime} CST)")
 
     else:
-        return(f"Neutral Signal detected for {tick} at price of {price} ({currentTime} CST)")
+        closes = stock.history(period='1wk', interval='1d')
+        close = []
+        day = []
+        for i in range(0, len(closes["Close"])):
+            close.append(closes["Close"][i])
+            day.append(i)
+        close = np.array(close)
+        day = np.array(day).reshape((-1, 1))
+        model = LinearRegression().fit(day, close)
+        intc = model.intercept_
+        coef = model.coef_
+        if model.coef_ > 0:
+            return(f"Neutral Signal detected. Current linear regression model predicts a sell signal in {(sell - intc) / coef} trading days. ({currentTime} CST)")
+        if model.coef_ < 0:
+            return(f"Neutral Signal detected. Current linear regression model predicts a buy signal in {(buy - intc) / coef} trading days. ({currentTime} CST)")
 
 
 def api():
